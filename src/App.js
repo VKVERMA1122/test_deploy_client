@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState();
+  useEffect(() => {
+    const getData = async () => {
+      const res = await fetch("https://test-server-2-guj8.onrender.com");
+      const resjson = await res.json();
+      console.log(resjson);
+      setData(resjson);
+    };
+    getData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data === undefined ? <h1>Loading</h1> : <h1>{data.msg}</h1>}
     </div>
   );
 }
